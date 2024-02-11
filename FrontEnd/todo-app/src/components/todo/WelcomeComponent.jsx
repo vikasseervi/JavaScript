@@ -1,17 +1,18 @@
 import { useParams, Link} from "react-router-dom"
 import { useState } from "react"
 import { retrieveHelloWorldBean, retrieveHelloPathVariable } from "./api/HelloWorldApiService";
+import { useAuth } from "./security/AuthContext";
 
 export default function WelcomeComponent() {
 
     const {username} = useParams()
-
     const [message, setMessage] = useState(null);
+    const authContext = useAuth()
 
     function callHelloWorldApi() {
         //axios is a popular framework to call rest api
 
-        retrieveHelloPathVariable('Vikas')
+        retrieveHelloPathVariable('Vikas', authContext.token)
             .then((response) => successfulRespone(response))
             .catch( (error) => errorRespone(error) )
             .finally( () => console.log('cleanUp'))
